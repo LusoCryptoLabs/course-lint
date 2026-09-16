@@ -1,0 +1,31 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  testar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar
+        run: pip install pyyaml pytest
+
+      - name: Testes
+        run: python -m pytest tests/ -q
+
+      # O exemplo tem violacoes de proposito, uma por regra. Se o validador
+      # deixar de as apanhar, este passo passa e o build chumba, que e o que
+      # queremos: o exemplo e um teste de regressao do proprio validador.
+      - name: O exemplo tem de chumbar
+        run: |
+          if python -m courselint.cli exemplo --sem-cor; then
+            echo "o exemplo devia ter achados e nao teve"
+            exit 1
+          fi

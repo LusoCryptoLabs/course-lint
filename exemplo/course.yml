@@ -1,0 +1,7 @@
+title: Validating Data Pipelines in Python
+description: >-
+  Learn to check the shape of data before it reaches production, with schemas,
+  assertions and hidden tests.
+programming_language: python
+difficulty_level: 5
+time_needed: 4 hours
